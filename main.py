@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 import time
 # === AYARLAR ===
-TOKEN = "8732604700:AAFGlCTAUBG7xkouu8ZaXnFmf_3MrdVJc3Y"
+TOKEN = "8675041032:AAGbddhOBWJMR8VzNDbPwfJi3LpLhifTUs4"
 BOT_USERNAME = "Ahmet_smmpanel_bot"
 
 # Adminler
