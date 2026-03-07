@@ -720,4 +720,4 @@ def keep_alive():
 if __name__ == "__main__":
     keep_alive()
     print("Bot aktif başladı...")
-    bot.infinity_polling(skip_pending=True)
+    bot.infinity_polling()
