@@ -607,27 +607,24 @@ def admin_duyuru(call):
 
 def duyuru_gonder(message):
     uid = str(message.from_user.id)
-    
-    if uid not in ADMINLER:
-        bot.reply_to(message, "❌ Yetkin yok!")
-        return
-    
-    if message.text == "/iptal":
-        bot.reply_to(message, "❌ Duyuru iptal edildi.")
-        return
-    
     duyuru_metni = message.text
-                data = load_users()
+    data = load_users()
+    basarili, basarisiz = 0, 0
+    
+    for user_id in data:
+        try:
+            bot.send_message(user_id, duyuru_metni)
+            basarili += 1
+        except:
+            basarisiz += 1
+            
+    bot.send_message(message.chat.id, f"✅ Duyuru Gönderildi!\n📊 Başarılı: {basarili}\n❌ Başarısız: {basarisiz}")
 
-    # Onay butonu ve Puan Gönder özelliği
-        # Admin Paneli İşlemleri
-    markup = types.InlineKeyboardMarkup()
-    markup.add(
-        types.InlineKeyboardButton("💰 Puan Gönder", callback_data="admin_puan_ver"),
-        types.InlineKeyboardButton("📣 Duyuru Gönder", callback_data="duyuru_onayla"),
-        types.InlineKeyboardButton("❌ İptal", callback_data="admin_geri")
-    )
-    bot.send_message(message.chat.id, "📣 Bir işlem seçin:", reply_markup=markup)
+# --- ADMIN GERİ DÖNÜŞ ---
+@bot.callback_query_handler(func=lambda call: call.data == "admin_geri")
+def admin_geri(call):
+    bot.delete_message(call.message.chat.id, call.message.message_id)
+    admin_panel(call.message)
 
 # --- PUAN GÖNDERME FONKSİYONLARI ---
 @bot.callback_query_handler(func=lambda call: call.data == "admin_puan_ver")
@@ -671,8 +668,9 @@ def keep_alive():
 # --- BOTU BAŞLATAN ANA DÖNGÜ ---
 if __name__ == "__main__":
     try:
-        keep_alive()  # Render'ın uyku moduna girmesini engelleyen web sunucusu
+        keep_alive()  # Botu uyanık tutan sunucuyu başlatır
         bot.infinity_polling(timeout=20, long_polling_timeout=10)
     except Exception as e:
         print(f"Hata: {e}")
+
         print(f"Hata: {e}")
