@@ -61,7 +61,33 @@ def start(message):
     ana_menu(uid)
 
 
-# Tüm Ürünler (fiyatları referans puanı cinsinden)
+
+
+
+bot = telebot.TeleBot(TOKEN)
+
+# === VERİ DOSYALARI ===
+if not os.path.exists("kullanicilar.json"):
+    with open("kullanicilar.json", "w") as f:
+        json.dump({}, f)
+
+def load_users():
+    try:
+        with open("kullanicilar.json", "r") as f:
+            return json.load(f)
+    except:
+        return {}
+
+def save_users(data):
+    with open("kullanicilar.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+# === GRUP KONTROLÜ ===
+def grupta_mi(user_id):
+    """Kullanıcı zorunlu grupta mı kontrol et"""
+    try:
+        member = bot.get_chat_member(ZORUNLU_GRUP_ID, user_id)
+        return member.status# Tüm Ürünler (fiyatları referans puanı cinsinden)
 URUNLER = {
     "pubg_hesap": {
         "ad": "🎮 Pubg Hesap",
@@ -132,34 +158,25 @@ URUNLER = {
         "ad": "🔫 Valorant",
         "fiyat": 10,
         "aciklama": "Valorant random hesap teslimi."
+    },
+
+    # Yeni eklenenler
+    "live_civciv": {
+        "ad": "🐥 Live Civciv",
+        "fiyat": 10,
+        "aciklama": "Canlı civciv hizmeti."
+    },
+    "idefix_hit": {
+        "ad": "📚 İdefix Hit",
+        "fiyat": 5,
+        "aciklama": "İdefix için hit gönderimi."
+    },
+    "disney_plus": {
+        "ad": "🎬 Disney+",
+        "fiyat": 5,
+        "aciklama": "Disney+ hesap/profil erişimi."
     }
-}
-
-
-bot = telebot.TeleBot(TOKEN)
-
-# === VERİ DOSYALARI ===
-if not os.path.exists("kullanicilar.json"):
-    with open("kullanicilar.json", "w") as f:
-        json.dump({}, f)
-
-def load_users():
-    try:
-        with open("kullanicilar.json", "r") as f:
-            return json.load(f)
-    except:
-        return {}
-
-def save_users(data):
-    with open("kullanicilar.json", "w") as f:
-        json.dump(data, f, indent=4)
-
-# === GRUP KONTROLÜ ===
-def grupta_mi(user_id):
-    """Kullanıcı zorunlu grupta mı kontrol et"""
-    try:
-        member = bot.get_chat_member(ZORUNLU_GRUP_ID, user_id)
-        return member.status in ['member', 'administrator', 'creator']
+} in ['member', 'administrator', 'creator']
     except:
         return False
 
