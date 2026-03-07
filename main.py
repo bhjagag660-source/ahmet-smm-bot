@@ -302,7 +302,7 @@ def start(message):
         ref_id = str(referans_id)
         if ref_id in data:
             # Puan ve sayı artırma
-            data[ref_id]["puan"] = data[ref_id].get("puan", 0) + 5
+            data[ref_id]["puan"] = data[ref_id].get("puan", 0) + 1
             data[ref_id]["referans_sayisi"] = data[ref_id].get("referans_sayisi", 0) + 1
             
             # Listeye ekleme
