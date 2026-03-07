@@ -622,22 +622,22 @@ def duyuru_gonder(message):
     # Onay butonu
     markup = types.InlineKeyboardMarkup()
     markup.add(
-                                        types.InlineKeyboardButton("💰 Puan Gönder", callback_data="admin_puan_ver"),
+                                                    types.InlineKeyboardButton("💰 Puan Gönder", callback_data="admin_puan_ver"),
             types.InlineKeyboardButton("✅ Duyuru Gönder", callback_data="duyuru_onayla"),
             types.InlineKeyboardButton("❌ İptal", callback_data="admin_geri")
         )
-        bot.send_message(message.chat.id, f"📣 Duyuru Önizleme:\n\n{duyuru_metni}\n\nOnaylıyor musunuz?", reply_markup=markup)
+        bot.send_message(message.chat.id, "📣 Bir işlem seçin:", reply_markup=markup)
 
-# --- PUAN GÖNDERME SİSTEMİ ---
+# --- PUAN GÖNDERME FONKSİYONLARI ---
 @bot.callback_query_handler(func=lambda call: call.data == "admin_puan_ver")
 def admin_puan_ver(call):
     bot.answer_callback_query(call.id)
-    msg = bot.send_message(call.message.chat.id, "👤 Puan gönderilecek kullanıcının ID'sini yazın:")
+    msg = bot.send_message(call.message.chat.id, "👤 Puan gönderilecek kullanıcının ID numarasını yazın:")
     bot.register_next_step_handler(msg, puan_id_al)
 
 def puan_id_al(message):
     target_id = message.text
-    msg = bot.send_message(message.chat.id, "💰 Gönderilecek puan miktarını yazın:")
+    msg = bot.send_message(message.chat.id, "💰 Gönderilecek puan miktarını rakamla yazın:")
     bot.register_next_step_handler(msg, lambda m: puan_yukle(m, target_id))
 
 def puan_yukle(message, target_id):
@@ -647,13 +647,34 @@ def puan_yukle(message, target_id):
         if target_id in data:
             data[target_id]['puan'] = data[target_id].get('puan', 0) + miktar
             save_users(data)
-            bot.send_message(message.chat.id, f"✅ {target_id} ID'li kullanıcıya {miktar} puan eklendi!")
-            bot.send_message(target_id, f"🎁 Admin size {miktar} puan gönderdi!")
+            bot.send_message(message.chat.id, f"✅ {target_id} ID'li kullanıcıya {miktar} puan başarıyla eklendi!")
+            bot.send_message(target_id, f"🎁 Admin tarafından hesabınıza {miktar} puan eklendi!")
         else:
-            bot.send_message(message.chat.id, "❌ Kullanıcı bulunamadı!")
+            bot.send_message(message.chat.id, "❌ Kullanıcı veritabanında bulunamadı!")
     except ValueError:
-        bot.send_message(message.chat.id, "❌ Lütfen sadece sayı girin!")
+        bot.send_message(message.chat.id, "❌ Hata: Lütfen sadece sayısal bir değer girin!")
 
-# --- BOTU BAŞLATAN KOMUT ---
+# --- DUYURU ONAYLAMA ---
+@bot.callback_query_handler(func=lambda call: call.data == "duyuru_onayla")
+def duyuru_onayla(call):
+    bot.answer_callback_query(call.id)
+    data = load_users()
+    basarili, basarisiz = 0, 0
+    # Loglardaki Markdown hatasını önlemek için parse_mode kullanılmadı
+    duyuru_metni = call.message.text.split("Onaylıyor musunuz?")[0]
+    
+    for user_id in data:
+        try:
+            bot.send_message(user_id, duyuru_metni)
+            basarili += 1
+        except:
+            basarisiz += 1
+            
+    markup = types.InlineKeyboardMarkup()
+    markup.add(types.InlineKeyboardButton("⬅️ Admin Paneli", callback_data="admin_geri"))
+    bot.edit_message_text(f"✅ Duyuru Tamamlandı\n📊 Başarılı: {basarili}\n❌ Başarısız: {basarisiz}", 
+                          call.message.chat.id, call.message.message_id, reply_markup=markup)
+
+# --- BOTU DÖNGÜYE SOKAN KRİTİK KOMUT ---
 if __name__ == "__main__":
     bot.infinity_polling()
