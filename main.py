@@ -37,33 +37,6 @@ def kanallarda_mi(user_id):
     return True
 
 # === START KOMUTU GÜNCELLEMESİ ===
-@bot.message_handler(commands=["start"])
-def start(message):
-    uid = str(message.from_user.id)
-    ensure_user(uid, message.from_user.username, message.from_user.first_name)
-    
-    if not kanallarda_mi(uid):
-        markup = types.InlineKeyboardMarkup()
-        # Tüm kanalları butona ekle
-        for i, kanal in enumerate(ZORUNLU_KANALLAR, 1):
-            markup.add(types.InlineKeyboardButton(f"📢 Kanal {i} Katıl", url=kanal["link"]))
-        
-        markup.add(types.InlineKeyboardButton("✅ Katıldım, Kontrol Et", callback_data="grup_kontrol"))
-        
-        bot.send_message(
-            uid, 
-            "⚠️ **DİKKAT!**\n\nBotu kullanabilmek için aşağıdaki kanalların tümüne katılmanız gerekmektedir:", 
-            reply_markup=markup, 
-            parse_mode="Markdown"
-        )
-        return
-    
-    ana_menu(uid)
-
-
-
-
-
 bot = telebot.TeleBot(TOKEN)
 
 URUNLER = {
