@@ -713,10 +713,5 @@ def keep_alive():
 # --- BOTU BAŞLATAN ANA DÖNGÜ ---
 if __name__ == "__main__":
     keep_alive()
-    print("Bot aktif...")
-
-    while True:
-        try:
-            bot.infinity_polling(timeout=10, long_polling_timeout=5)
-        except Exception as e:
-            print(f"Hata: {e}")
+    print("Bot aktif başladı...")
+    bot.infinity_polling(skip_pending=True)
