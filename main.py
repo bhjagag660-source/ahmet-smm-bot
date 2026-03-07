@@ -617,7 +617,7 @@ def duyuru_gonder(message):
         return
     
     duyuru_metni = message.text
-            data = load_users()
+                data = load_users()
 
     # Onay butonu ve Puan Gönder özelliği
     markup = types.InlineKeyboardMarkup()
@@ -661,7 +661,7 @@ def duyuru_onayla(call):
     data = load_users()
     basarili, basarisiz = 0, 0
     duyuru_metni = call.message.text.split("Onaylıyor musunuz?")[0]
-    
+
     for user_id in data:
         try:
             bot.send_message(user_id, duyuru_metni)
