@@ -42,6 +42,12 @@ bot = telebot.TeleBot(TOKEN)
 @bot.message_handler(commands=["start"])
 def start(message):
 
+    user_id = message.from_user.id
+
+    if not kanallarda_mi(user_id):
+        bot.reply_to(message,"🚫 Kanallara katılmadan botu kullanamazsın.")
+        return
+
     URUNLER = {
         "pubg_hesap": {
             "ad": "🎮 Pubg Hesap",
