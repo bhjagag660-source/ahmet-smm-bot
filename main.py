@@ -620,6 +620,7 @@ def duyuru_gonder(message):
                 data = load_users()
 
     # Onay butonu ve Puan Gönder özelliği
+        # Bu satırların başında tam olarak 4 veya 8 boşluk olmalı (fonksiyonun içine aitse)
     markup = types.InlineKeyboardMarkup()
     markup.add(
         types.InlineKeyboardButton("💰 Puan Gönder", callback_data="admin_puan_ver"),
