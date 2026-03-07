@@ -620,6 +620,7 @@ def duyuru_gonder(message):
                 data = load_users()
 
     # Onay butonu ve Puan Gönder özelliği
+        # Admin Paneli İşlemleri
     markup = types.InlineKeyboardMarkup()
     markup.add(
         types.InlineKeyboardButton("💰 Puan Gönder", callback_data="admin_puan_ver"),
@@ -670,7 +671,8 @@ def keep_alive():
 # --- BOTU BAŞLATAN ANA DÖNGÜ ---
 if __name__ == "__main__":
     try:
-        keep_alive()  # Botu uyanık tutan sunucuyu başlatır
+        keep_alive()  # Render'ın uyku moduna girmesini engelleyen web sunucusu
         bot.infinity_polling(timeout=20, long_polling_timeout=10)
     except Exception as e:
+        print(f"Hata: {e}")
         print(f"Hata: {e}")
