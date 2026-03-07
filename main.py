@@ -604,7 +604,6 @@ def admin_duyuru(call):
     # Kullanıcıyı duyuru moduna al
     bot.register_next_step_handler_by_chat_id(call.message.chat.id, duyuru_gonder)
     bot.answer_callback_query(call.id)
-
 def duyuru_gonder(message):
     uid = str(message.from_user.id)
     
@@ -633,7 +632,6 @@ def duyuru_gonder(message):
 @bot.callback_query_handler(func=lambda call: call.data == "admin_geri")
 def admin_geri(call):
     bot.delete_message(call.message.chat.id, call.message.message_id)
-    # Admin paneli fonksiyonunu çağırır
     admin_panel(call.message)
 
 # --- PUAN GÖNDERME FONKSİYONLARI ---
@@ -678,7 +676,7 @@ def keep_alive():
 # --- BOTU BAŞLATAN ANA DÖNGÜ ---
 if __name__ == "__main__":
     try:
-        keep_alive()  # Render'ın uyumasını engelleyen web sunucusu
+        keep_alive()  # Render'ın uyumasını engelleyen sunucuyu başlatır
         bot.infinity_polling(timeout=20, long_polling_timeout=10)
     except Exception as e:
         print(f"Hata: {e}")
