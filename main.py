@@ -182,10 +182,6 @@ def grupta_mi(user_id):
         return member.status in ['member','administrator','creator']
     except:
         return False
-
-} in ['member', 'administrator', 'creator']
-except:
-    return False
 # === KULLANICI OLUŞTUR ===
 def ensure_user(uid, username=None, first_name=None):
     data = load_users()
