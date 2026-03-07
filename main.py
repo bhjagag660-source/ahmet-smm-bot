@@ -620,7 +620,6 @@ def duyuru_gonder(message):
                 data = load_users()
 
     # Onay butonu ve Puan Gönder özelliği
-        # Bu satırların başında tam olarak 4 veya 8 boşluk olmalı (fonksiyonun içine aitse)
     markup = types.InlineKeyboardMarkup()
     markup.add(
         types.InlineKeyboardButton("💰 Puan Gönder", callback_data="admin_puan_ver"),
@@ -655,26 +654,23 @@ def puan_yukle(message, target_id):
     except ValueError:
         bot.send_message(message.chat.id, "❌ Hata: Lütfen sadece sayı girin!")
 
-# --- DUYURU ONAYLAMA ---
-@bot.callback_query_handler(func=lambda call: call.data == "duyuru_onayla")
-def duyuru_onayla(call):
-    bot.answer_callback_query(call.id)
-    data = load_users()
-    basarili, basarisiz = 0, 0
-    duyuru_metni = call.message.text.split("Onaylıyor musunuz?")[0]
+# --- RENDER İÇİN WEB SUNUCUSU (KEEP ALIVE) ---
+from flask import Flask
+from threading import Thread
+app = Flask('')
+@app.route('/')
+def home():
+    return "Bot 7/24 Aktif!"
+def run():
+    app.run(host='0.0.0.0', port=8080)
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
 
-    for user_id in data:
-        try:
-            bot.send_message(user_id, duyuru_metni)
-            basarili += 1
-        except:
-            basarisiz += 1
-            
-    markup = types.InlineKeyboardMarkup()
-    markup.add(types.InlineKeyboardButton("⬅️ Admin Paneli", callback_data="admin_geri"))
-    bot.edit_message_text(f"✅ Duyuru Tamamlandı\n📊 Başarılı: {basarili}\n❌ Başarısız: {basarisiz}", 
-                          call.message.chat.id, call.message.message_id, reply_markup=markup)
-
-# --- BOTU DÖNGÜYE SOKAN KRİTİK KOMUT ---
+# --- BOTU BAŞLATAN ANA DÖNGÜ ---
 if __name__ == "__main__":
-    bot.infinity_polling()
+    try:
+        keep_alive()  # Botu uyanık tutan sunucuyu başlatır
+        bot.infinity_polling(timeout=20, long_polling_timeout=10)
+    except Exception as e:
+        print(f"Hata: {e}")
