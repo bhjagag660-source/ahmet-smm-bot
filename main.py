@@ -39,6 +39,9 @@ def kanallarda_mi(user_id):
 # === START KOMUTU GÜNCELLEMESİ ===
 bot = telebot.TeleBot(TOKEN)
 
+@bot.message_handler(commands=["start"])
+def start(message):
+    
 URUNLER = {
     "pubg_hesap": {
         "ad": "🎮 Pubg Hesap",
