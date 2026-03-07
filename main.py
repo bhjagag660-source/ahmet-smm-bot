@@ -66,32 +66,8 @@ def start(message):
 
 bot = telebot.TeleBot(TOKEN)
 
-# === VERİ DOSYALARI ===
-if not os.path.exists("kullanicilar.json"):
-    with open("kullanicilar.json", "w") as f:
-        json.dump({}, f)
-
-def load_users():
-    try:
-        with open("kullanicilar.json", "r") as f:
-            return json.load(f)
-    except:
-        return {}
-
-def save_users(data):
-    with open("kullanicilar.json", "w") as f:
-        json.dump(data, f, indent=4)
-
-# === GRUP KONTROLÜ ===
-def grupta_mi(user_id):
-    try:
-        member = bot.get_chat_member(ZORUNLU_GRUP_ID, user_id)
-        return member.status in ['member','administrator','creator']
-    except:
-        return False
-
-
 URUNLER = {
+    "pubg_hesap": {
         "ad": "🎮 Pubg Hesap",
         "fiyat": 10,
         "aciklama": "PUBG hesap teslim edilir."
@@ -177,7 +153,38 @@ URUNLER = {
         "ad": "🎬 Disney+",
         "fiyat": 5,
         "aciklama": "Disney+ hesap/profil erişimi."
+    },
+    "pubg_uc": {
+        "ad": "💎 Pubg UC",
+        "fiyat": 8,
+        "aciklama": "PUBG UC teslim edilir."
     }
+}# === VERİ DOSYALARI ===
+if not os.path.exists("kullanicilar.json"):
+    with open("kullanicilar.json", "w") as f:
+        json.dump({}, f)
+
+def load_users():
+    try:
+        with open("kullanicilar.json", "r") as f:
+            return json.load(f)
+    except:
+        return {}
+
+def save_users(data):
+    with open("kullanicilar.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+# === GRUP KONTROLÜ ===
+def grupta_mi(user_id):
+    try:
+        member = bot.get_chat_member(ZORUNLU_GRUP_ID, user_id)
+        return member.status in ['member','administrator','creator']
+    except:
+        return False
+
+
+
 } in ['member', 'administrator', 'creator']
     except:
         return False
