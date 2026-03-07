@@ -1,2 +1,2 @@
 pyTelegramBotAPI
-pip install flask
+flask
