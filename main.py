@@ -4,7 +4,6 @@ import json
 import os
 from datetime import datetime
 import time
-
 # === AYARLAR ===
 TOKEN = "8675041032:AAEeBlMOEZyGQqJqLsXOD_tOWawV1HE1S7o"
 BOT_USERNAME = "Ahmet_smmpanel_bot"
@@ -15,9 +14,52 @@ KURUCU_ID = "8451593028"
 YENI_ADMIN_ID = "8434939976"
 YENI_ADMIN_USERNAME = "Hakikiyetsiz"
 
-# Grup ayarları
-ZORUNLU_GRUP_LINK = "https://t.me/+Ank0lLdeOPgyYTNi"
-ZORUNLU_GRUP_ID = -1003590768175
+# === GRUP / KANAL AYARLARI ===
+# Eski tekli yapı yerine liste yapısı (Daha güvenli ve ölçeklenebilir)
+ZORUNLU_KANALLAR = [
+    {"link": "https://t.me/+Ank0lLdeOPgyYTNi", "id": -1003590768175},
+    {"link": "https://t.me/+jYZ4-PsyNd9lMzIx", "id": -1003899013491},
+    {"link": "https://t.me/+7OVl8xTgyXZjZDAx", "id": -1003843995610}
+]
+
+# === KONTROL FONKSİYONU ===
+def kanallarda_mi(user_id):
+    """Kullanıcının tüm zorunlu kanallarda olup olmadığını kontrol eder"""
+    for kanal in ZORUNLU_KANALLAR:
+        try:
+            member = bot.get_chat_member(kanal["id"], user_id)
+            if member.status not in ['member', 'administrator', 'creator']:
+                return False
+        except Exception as e:
+            # Bot kanalda yönetici değilse veya kanal bulunamazsa hata verebilir
+            print(f"Hata: {kanal['id']} kontrol edilemedi. {e}")
+            return False
+    return True
+
+# === START KOMUTU GÜNCELLEMESİ ===
+@bot.message_handler(commands=["start"])
+def start(message):
+    uid = str(message.from_user.id)
+    ensure_user(uid, message.from_user.username, message.from_user.first_name)
+    
+    if not kanallarda_mi(uid):
+        markup = types.InlineKeyboardMarkup()
+        # Tüm kanalları butona ekle
+        for i, kanal in enumerate(ZORUNLU_KANALLAR, 1):
+            markup.add(types.InlineKeyboardButton(f"📢 Kanal {i} Katıl", url=kanal["link"]))
+        
+        markup.add(types.InlineKeyboardButton("✅ Katıldım, Kontrol Et", callback_data="grup_kontrol"))
+        
+        bot.send_message(
+            uid, 
+            "⚠️ **DİKKAT!**\n\nBotu kullanabilmek için aşağıdaki kanalların tümüne katılmanız gerekmektedir:", 
+            reply_markup=markup, 
+            parse_mode="Markdown"
+        )
+        return
+    
+    ana_menu(uid)
+
 
 # Tüm Ürünler (fiyatları referans puanı cinsinden)
 URUNLER = {
