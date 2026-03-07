@@ -84,12 +84,14 @@ def save_users(data):
 
 # === GRUP KONTROLÜ ===
 def grupta_mi(user_id):
-    """Kullanıcı zorunlu grupta mı kontrol et"""
     try:
         member = bot.get_chat_member(ZORUNLU_GRUP_ID, user_id)
-        return member.status# Tüm Ürünler (fiyatları referans puanı cinsinden)
+        return member.status in ['member','administrator','creator']
+    except:
+        return False
+
+
 URUNLER = {
-    "pubg_hesap": {
         "ad": "🎮 Pubg Hesap",
         "fiyat": 10,
         "aciklama": "PUBG hesap teslim edilir."
