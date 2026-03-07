@@ -41,13 +41,13 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=["start"])
 def start(message):
-    
-URUNLER = {
-    "pubg_hesap": {
-        "ad": "🎮 Pubg Hesap",
-        "fiyat": 10,
-        "aciklama": "PUBG hesap teslim edilir."
-    },
+
+    URUNLER = {
+        "pubg_hesap": {
+            "ad": "🎮 Pubg Hesap",
+            "fiyat": 10,
+            "aciklama": "PUBG hesap teslim edilir."
+        },
     "tiktok_hit": {
         "ad": "🔥 Tiktok Hit",
         "fiyat": 5,
