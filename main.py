@@ -622,44 +622,29 @@ def duyuru_gonder(message):
     # Onay butonu
     markup = types.InlineKeyboardMarkup()
     markup.add(
-                types.InlineKeyboardButton("✅ Gönder", callback_data="duyuru_onayla"),
-        types.InlineKeyboardButton("❌ İptal", callback_data="admin_geri")
-    )
-    
-    bot.send_message(message.chat.id, f"📣 **Duyuru Önizleme:**\n\n{duyuru_metni}\n\nOnaylıyor musunuz?", reply_markup=markup)
+                            types.InlineKeyboardButton("✅ Gönder", callback_data="duyuru_onayla"),
+            types.InlineKeyboardButton("❌ İptal", callback_data="admin_geri")
+        )
+        bot.send_message(message.chat.id, f"📣 Duyuru Önizleme:\n\n{duyuru_metni}\n\nOnaylıyor musunuz?", reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: call.data == "duyuru_onayla")
 def duyuru_onayla(call):
-    # Duyuru gönderilirken hata almamak için Markdown kaldırıldı
     data = load_users()
-    basarili = 0
-    basarisiz = 0
-    
+    basarili, basarisiz = 0, 0
     for user_id in data:
         try:
             bot.send_message(user_id, call.message.text.split("Onaylıyor musunuz?")[0])
             basarili += 1
         except:
             basarisiz += 1
-            
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton("⬅️ Admin Paneli", callback_data="admin_geri"))
-
-    bot.edit_message_text(
-        f"✅ Duyuru Bitti\n📊 Başarılı: {basarili}\n❌ Başarısız: {basarisiz}",
-        call.message.chat.id,
-        call.message.message_id,
-        reply_markup=markup
-    )
+    bot.edit_message_text(f"✅ Duyuru Tamamlandı\n📊 Başarılı: {basarili}\n❌ Başarısız: {basarisiz}", call.message.chat.id, call.message.message_id, reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: call.data == "admin_geri")
 def admin_geri(call):
     bot.answer_callback_query(call.id)
-    # Admin paneline dönme kodun buraya gelecek
-    pass
+    admin_panel(call.message)
 
-# BOTU ÇALIŞTIRAN KRİTİK KOMUT
 if __name__ == "__main__":
     bot.infinity_polling()
-    
-    
