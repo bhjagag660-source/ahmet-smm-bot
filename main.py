@@ -617,7 +617,7 @@ def duyuru_gonder(message):
         return
     
     duyuru_metni = message.text
-        data = load_users()
+            data = load_users()
 
     # Onay butonu ve Puan Gönder özelliği
     markup = types.InlineKeyboardMarkup()
