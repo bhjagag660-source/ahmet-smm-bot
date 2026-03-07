@@ -712,8 +712,11 @@ def keep_alive():
 
 # --- BOTU BAŞLATAN ANA DÖNGÜ ---
 if __name__ == "__main__":
-    try:
-        keep_alive()  # Render'ın uyumasını engelleyen sunucuyu başlatır
-        bot.infinity_polling(timeout=20, long_polling_timeout=10)
-    except Exception as e:
-        print(f"Hata: {e}")
+    keep_alive()
+    print("Bot aktif...")
+
+    while True:
+        try:
+            bot.infinity_polling(timeout=10, long_polling_timeout=5)
+        except Exception as e:
+            print(f"Hata: {e}")
