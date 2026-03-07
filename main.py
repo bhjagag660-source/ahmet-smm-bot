@@ -5,8 +5,8 @@ import os
 from datetime import datetime
 import time
 # === AYARLAR ===
-TOKEN = "8159169622:AAHFtvf0pKNTPjTsRXcFEhhHPQ8TF4_lD-E"
-BOT_USERNAME = "Ahmet_smmpanel_bot"
+TOKEN = "8741691254:AAF1NIiIhTTikiBaoZMdBGW7jUoIQRja9uI"
+BOT_USERNAME = "AhmetMarketBot"
 
 # Adminler
 ADMINLER = ["8451593028", "8434939976"]  # Kurucu ID + Yeni Admin ID
