@@ -617,16 +617,16 @@ def duyuru_gonder(message):
         return
     
     duyuru_metni = message.text
-    data = load_users()
-    
-    # Onay butonu
+        data = load_users()
+
+    # Onay butonu ve Puan Gönder özelliği
     markup = types.InlineKeyboardMarkup()
-            markup.add(
-            types.InlineKeyboardButton("💰 Puan Gönder", callback_data="admin_puan_ver"),
-            types.InlineKeyboardButton("📣 Duyuru Gönder", callback_data="duyuru_onayla"),
-            types.InlineKeyboardButton("❌ İptal", callback_data="admin_geri")
-        )
-        bot.send_message(message.chat.id, "📣 Bir işlem seçin:", reply_markup=markup)
+    markup.add(
+        types.InlineKeyboardButton("💰 Puan Gönder", callback_data="admin_puan_ver"),
+        types.InlineKeyboardButton("📣 Duyuru Gönder", callback_data="duyuru_onayla"),
+        types.InlineKeyboardButton("❌ İptal", callback_data="admin_geri")
+    )
+    bot.send_message(message.chat.id, "📣 Bir işlem seçin:", reply_markup=markup)
 
 # --- PUAN GÖNDERME FONKSİYONLARI ---
 @bot.callback_query_handler(func=lambda call: call.data == "admin_puan_ver")
@@ -674,6 +674,6 @@ def duyuru_onayla(call):
     bot.edit_message_text(f"✅ Duyuru Tamamlandı\n📊 Başarılı: {basarili}\n❌ Başarısız: {basarisiz}", 
                           call.message.chat.id, call.message.message_id, reply_markup=markup)
 
-# --- BOTU DÖNGÜYE SOKAN KOMUT ---
+# --- BOTU DÖNGÜYE SOKAN KRİTİK KOMUT ---
 if __name__ == "__main__":
     bot.infinity_polling()
