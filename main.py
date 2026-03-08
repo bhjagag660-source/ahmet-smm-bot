@@ -17,10 +17,8 @@ YENI_ADMIN_USERNAME = "Hakikiyetsiz"
 # === GRUP / KANAL AYARLARI ===
 # Eski tekli yapı yerine liste yapısı (Daha güvenli ve ölçeklenebilir)
 ZORUNLU_KANALLAR = [
-{"link": "https://t.me/+Ank0lLdeOPgyYTNi", "id": -1003590768175},
-{"link": "https://t.me/+B6Lw8ZzDUPsyZmFh", "id": -1003843995610}
+{"link": "https://t.me/+Ank0lLdeOPgyYTNi", "id": -1003590768175}
 ]
-
 # === KONTROL FONKSİYONU ===
 def kanallarda_mi(user_id):
     """Kullanıcının tüm zorunlu kanallarda olup olmadığını kontrol eder"""
