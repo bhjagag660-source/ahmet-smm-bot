@@ -5,21 +5,21 @@ import os
 from datetime import datetime
 import time
 
-TOKEN = "8741691254:AAGx5xGjRaggghOk-4YZE9AvGO3OsMLJRhw"
+TOKEN = "8728271857:AAFrEnGrgi32bLWtWl1fAnJA9AS1IpovzX0"
 
 bot = telebot.TeleBot(TOKEN)
 
+# Zorunlu kanallar
 ZORUNLU_KANALLAR = [
-{"link": "https://t.me/+AnkO1LdeOPgyVTNi", "id": -1003590768175}
+    {"link": "https://t.me/+ge4oDY3JKhc0Y2Yy", "id": -1003590768175}
 ]
 # === KONTROL FONKSİYONU ===
 def kanallarda_mi(user_id):
-    """Kullanıcının tüm zorunlu kanallarda olup olmadığını kontrol eder"""
-    
+
     for kanal in ZORUNLU_KANALLAR:
         try:
             member = bot.get_chat_member(kanal["id"], user_id)
-
+            
             if member.status not in ["member", "administrator", "creator"]:
                 return False
 
@@ -30,18 +30,6 @@ def kanallarda_mi(user_id):
     return True
 
 # === START KOMUTU GÜNCELLEMESİ ===
-
-@bot.message_handler(commands=["start"])
-def start(message):
-
-    user_id = message.from_user.id
-
-    if not kanallarda_mi(user_id):
-        bot.reply_to(
-            message,
-            "🚫 Botu kullanmak için önce kanala katılmalısın:\nhttps://t.me/+Ank0lLdeOPgyYTNi"
-        )
-        return
 
     URUNLER = {
         "pubg_hesap": {
@@ -248,23 +236,26 @@ def start(message):
     ensure_user(uid, username, first_name)
     data = load_users()
     
-    # GRUP KONTROLÜ - İlk startta mutlaka kontrol et
-    if not grupta_mi(uid):
-        # Gruba katılmamış
-        markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton("📢 Gruba Katıl", url=ZORUNLU_GRUP_LINK))
-        markup.add(types.InlineKeyboardButton("✅ Katıldım Kontrol Et", callback_data="grup_kontrol"))
-        
-        bot.send_message(
-            uid,
-            "⚠️ **ZORUNLU GRUP**\n\n"
-            "Bu botu kullanabilmek için önce aşağıdaki gruba katılmalısın:\n\n"
-            f"👉 {ZORUNLU_GRUP_LINK}\n\n"
-            "**Katıldıktan sonra** '✅ Katıldım Kontrol Et' butonuna bas.",
-            reply_markup=markup,
-            parse_mode="Markdown"
-        )
-        return
+  # GRUP KONTROLÜ - İlk startta mutlaka kontrol et
+if not grupta_mi(uid):
+    # Gruba katılmamış
+    markup = types.InlineKeyboardMarkup()
+
+    grup_link = ZORUNLU_KANALLAR[0]["link"]
+
+    markup.add(types.InlineKeyboardButton("📢 Gruba Katıl", url=grup_link))
+    markup.add(types.InlineKeyboardButton("✅ Katıldım Kontrol Et", callback_data="grup_kontrol"))
+
+    bot.send_message(
+        uid,
+        "⚠️ **ZORUNLU GRUP**\n\n"
+        "Bu botu kullanabilmek için önce aşağıdaki gruba katılmalısın:\n\n"
+        f"👉 {grup_link}\n\n"
+        "**Katıldıktan sonra** '✅ Katıldım Kontrol Et' butonuna bas.",
+        reply_markup=markup,
+        parse_mode="Markdown"
+    )
+    return
     
     # Referans işlemi
     if referans_id and data.get(uid) and data[uid].get("referans_veren") is None:
@@ -635,8 +626,8 @@ def admin_duyuru(call):
         "Göndermek istediğin duyuru metnini yaz:\n"
         "(İptal için /iptal yaz)",
         call.message.chat.id,
-        call.message.message_id,
-        parse_mode="Markdown"
+        call.message.message_i
+     parse_mode="Markdown"
     )
     
     # Kullanıcıyı duyuru moduna al
@@ -715,4 +706,4 @@ def keep_alive():
 if __name__ == "__main__":
     keep_alive()
     print("Bot aktif başladı...")
-    bot.infinity_polling()
+    bot.infinity_polling(none_stop=True)
