@@ -10,7 +10,10 @@ bot = telebot.TeleBot(TOKEN)
 
 # Zorunlu kanallar
 ZORUNLU_KANALLAR = [
-    {"link": "https://t.me/+ge4oDY3JKhc0Y2Yy", "id": -1003590768175}
+    {
+        "link": "https://t.me/+ge40DY3JKhc0Y2Yy",
+        "id": -1003590768175
+    }
 ]
 # === KONTROL FONKSİYONU ===
 def kanallarda_mi(user_id):
@@ -30,7 +33,7 @@ def kanallarda_mi(user_id):
 
 # === START KOMUTU GÜNCELLEMESİ ===
 
-    URUNLER = {
+URUNLER = {
         "pubg_hesap": {
             "ad": "🎮 Pubg Hesap",
             "fiyat": 10,
