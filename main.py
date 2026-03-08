@@ -41,8 +41,10 @@ def start(message):
 
     user_id = message.from_user.id
 
-    if not kanallarda_mi(user_id):
-        bot.reply_to(message,"🚫 Kanallara katılmadan botu kullanamazsın.")
+bot.reply_to(
+message,
+"🚫 Botu kullanmak için önce kanala katılmalısın:\nhttps://t.me/+Ank0lLdeOPgyYTNi"
+)
         return
 
     URUNLER = {
