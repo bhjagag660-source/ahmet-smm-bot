@@ -5,8 +5,7 @@ import os
 from datetime import datetime
 import time
 
-TOKEN = "8728271857:AAFrEnGrgi32bLWtWl1fAnJA9AS1IpovzX0"
-
+TOKEN = "8066443485:AAEPI5pOUamPtnIDzY1GZDkE7IvsiARfVQA"
 bot = telebot.TeleBot(TOKEN)
 
 # Zorunlu kanallar
