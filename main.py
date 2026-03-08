@@ -247,15 +247,15 @@ if not grupta_mi(uid):
     markup.add(types.InlineKeyboardButton("✅ Katıldım Kontrol Et", callback_data="grup_kontrol"))
 
     bot.send_message(
-        uid,
-        "⚠️ **ZORUNLU GRUP**\n\n"
-        "Bu botu kullanabilmek için önce aşağıdaki gruba katılmalısın:\n\n"
-        f"👉 {grup_link}\n\n"
-        "**Katıldıktan sonra** '✅ Katıldım Kontrol Et' butonuna bas.",
-        reply_markup=markup,
-        parse_mode="Markdown"
-    )
-    return
+            uid,
+            "⚠️ **ZORUNLU GRUP**\n\n"
+            "Bu botu kullanabilmek için önce aşağıdaki gruba katılmalısın:\n\n"
+            f"👉 {grup_link}\n\n"
+            "**Katıldıktan sonra** '✅ Katıldım Kontrol Et' butonuna bas.",
+            reply_markup=markup,
+            parse_mode="Markdown"
+        )
+        return
     
     # Referans işlemi
     if referans_id and data.get(uid) and data[uid].get("referans_veren") is None:
