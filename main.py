@@ -4,20 +4,13 @@ import json
 import os
 from datetime import datetime
 import time
-# === AYARLAR ===
-TOKEN = "8741691254:AAF1NIiIhTTikiBaoZMdBGW7jUoIQRja9uI"
-BOT_USERNAME = "AhmetMarketBot"
 
-# Adminler
-ADMINLER = ["8451593028", "8434939976"]  # Kurucu ID + Yeni Admin ID
-KURUCU_ID = "8451593028"
-YENI_ADMIN_ID = "8434939976"
-YENI_ADMIN_USERNAME = "Hakikiyetsiz"
+TOKEN = "8741691254:AAEyv1696O8GUUPuX5_D6HSBwd5ygvKO0rc"
 
-# === GRUP / KANAL AYARLARI ===
-# Eski tekli yapı yerine liste yapısı (Daha güvenli ve ölçeklenebilir)
+bot = telebot.TeleBot(TOKEN)
+
 ZORUNLU_KANALLAR = [
-{"link": "https://t.me/+Ank0lLdeOPgyYTNi", "id": -1003590768175}
+{"link": "https://t.me/+AnkO1LdeOPgyVTNi", "id": -1003590768175}
 ]
 # === KONTROL FONKSİYONU ===
 def kanallarda_mi(user_id):
@@ -37,7 +30,6 @@ def kanallarda_mi(user_id):
     return True
 
 # === START KOMUTU GÜNCELLEMESİ ===
-bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=["start"])
 def start(message):
