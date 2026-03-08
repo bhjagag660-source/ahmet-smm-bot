@@ -22,15 +22,18 @@ ZORUNLU_KANALLAR = [
 # === KONTROL FONKSİYONU ===
 def kanallarda_mi(user_id):
     """Kullanıcının tüm zorunlu kanallarda olup olmadığını kontrol eder"""
+    
     for kanal in ZORUNLU_KANALLAR:
         try:
             member = bot.get_chat_member(kanal["id"], user_id)
-            if member.status not in ['member', 'administrator', 'creator']:
+
+            if member.status not in ["member", "administrator", "creator"]:
                 return False
+
         except Exception as e:
-            # Bot kanalda yönetici değilse veya kanal bulunamazsa hata verebilir
-            print(f"Hata: {kanal['id']} kontrol edilemedi. {e}")
+            print(f"Kanal kontrol hatası: {kanal['id']} | {e}")
             return False
+
     return True
 
 # === START KOMUTU GÜNCELLEMESİ ===
